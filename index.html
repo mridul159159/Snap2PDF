@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PDF Toolkit — Tools</title>
+
+<style>
+/* ---------- CLEAN RESPONSIVE THEME ---------- */
+:root{
+  --bg:#0f1724;
+  --card:#0b1220;
+  --muted:#98a0b3;
+  --accent:#6ee7b7;
+  --accent-2:#60a5fa;
+  --radius:12px;
+  --shadow:0 6px 18px rgba(0,0,0,0.45);
+  font-family:Inter,system-ui;
+}
+
+body{
+  margin:0;
+  background:#08121c;
+  color:#e6eef8;
+  overflow-x:hidden;
+}
+
+/* Page layout */
+.page{
+  max-width:1100px;
+  margin:auto;
+  padding:20px;
+}
+
+/* Header */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.logo{
+  width:48px;height:48px;border-radius:12px;
+  display:grid;place-items:center;
+  font-weight:700;font-size:18px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  color:#021024;
+}
+
+.brand h1{margin:0;font-size:20px;}
+.brand p{margin:0;color:var(--muted);font-size:13px;}
+
+.nav .btn{
+  padding:8px 14px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.1);
+  background:#091423;
+  color:var(--accent);
+  cursor:pointer;
+}
+
+/* Layout with sidebar + content */
+.layout{
+  margin-top:20px;
+  display:grid;
+  grid-template-columns:250px 1fr;
+  gap:20px;
+}
+
+.sidebar{
+  background:#0a1422;
+  padding:16px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.08);
+  height:max-content;
+}
+
+.menu-title{
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+
+/* Sidebar Items */
+.menu a{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  text-decoration:none;
+  color:#e6eef8;
+  background:#0d1828;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid transparent;
+  transition:0.2s;
+  margin-bottom:6px;
+}
+
+.menu a:hover{
+  border-color:rgba(255,255,255,0.1);
+  background:#0f1d30;
+  transform:translateX(4px);
+}
+
+.icon{
+  width:32px;height:32px;
+  border-radius:8px;
+  display:grid;place-items:center;
+  background:rgba(255,255,255,0.05);
+  color:var(--accent);
+  font-size:12px;font-weight:700;
+}
+
+/* Content area */
+.content{
+  background:#0b1524;
+  padding:18px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.08);
+}
+
+/* Tool card */
+.tool-card{
+  background:#0e192b;
+  padding:16px;
+  border-radius:12px;
+  margin-bottom:16px;
+  border:1px solid rgba(255,255,255,0.07);
+  box-shadow:var(--shadow);
+}
+
+.tool-card.hidden{
+  display:none;
+}
+
+/* Input */
+.input, textarea, select{
+  width:100%;
+  padding:10px;
+  background:#0a1522;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.1);
+  color:#e6eef8;
+}
+
+.btn.primary{
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  border:none;
+  color:#02131f;
+  font-weight:700;
+  cursor:pointer;
+  padding:10px 14px;
+  border-radius:10px;
+}
+
+/* Dropzone */
+.dropzone{
+  border:1.5px dashed rgba(255,255,255,0.2);
+  padding:18px;
+  border-radius:12px;
+}
+
+/* Result Box */
+#results{
+  padding:15px;
+  background:#0c1728;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.1);
+  margin-bottom:18px;
+}
+
+/* Responsive fixes */
+@media(max-width:850px){
+  .layout{
+    grid-template-columns:1fr;
+  }
+  .sidebar{
+    position:relative;
+    width:100%;
+  }
+}
+.imgdim{
+    height: 40%;
+    width: 97%;
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="brand" style="display:flex;align-items:center;gap:10px;">
+      <div class="logo">PT</div>
+      <div>
+        <h1>PDF Toolkit</h1>
+        <p>All tools — Simple view</p>
+      </div>
+    </div>
+
+    <div class="nav">
+      <button class="btn" id="open-docs">Docs</button>
+    </div>
+  </header>
+
+  <!-- Layout -->
+  <div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="menu-title">Tools</div>
+
+      <nav class="menu">
+        <a href="#" data-tool="images2pdf"><div class="icon">I→P</div>Image → PDF</a>
+        <a href="#" data-tool="pdf-bg"><div class="icon">BG</div>PDF Background</a>
+        <a href="#" data-tool="delete-pages"><div class="icon">DEL</div>Delete Pages</a>
+        <a href="#" data-tool="merge"><div class="icon">M</div>Merge PDFs</a>
+        <a href="#" data-tool="text2pdf"><div class="icon">T→P</div>Text → PDF</a>
+        <a href="#" data-tool="pdf2pages"><div class="icon">P→Pg</div>PDF → Pages</a>
+      </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="content">
+
+      <!-- RESULTS ALWAYS SHOW -->
+      <div id="results">
+        <strong>Results</strong>
+        <div id="result-list" style="margin-top:10px;color:var(--muted);">
+          Processed output will appear here.
+        </div>
+      </div>
+      
+      <!-- IMAGE → PDF -->
+      <section id="tool-images2pdf" class="tool-card">
+        <div id="results" >
+        <img src="imgtopdf.jpg" class="imgdim" alt="">
+      </div>
+
+        <h3>Image → PDF</h3>
+
+        <p>Select images, reorder, convert.</p>
+
+        <div class="dropzone">
+          <input id="img-files-input" type="file" accept="image/*" multiple>
+          <button id="btn-convert-images" class="btn primary">Convert to PDF</button>
+        </div>
+
+        <div id="img-thumbs" style="margin-top:10px;color:var(--muted);font-size:13px;">
+          Thumbnails will appear (JS)
+        </div>
+      </section>
+
+      <!-- BACKGROUND -->
+      <section id="tool-pdf-bg" class="tool-card hidden">
+        <div id="results" >
+        <img src="background change.png" class="imgdim" alt="">
+      </div>
+
+        <h3>Change PDF Background</h3>
+        <input id="pdf-bg-input" type="file" accept="application/pdf">
+        <br><br>
+        <button id="btn-change-bg" class="btn primary">Apply Background</button>
+      </section>
+
+      <!-- DELETE PAGES -->
+      <section id="tool-delete-pages" class="tool-card hidden">
+        <h3>Delete PDF Pages</h3>
+        <input id="pdf-delete-input" type="file" accept="application/pdf">
+        <br><br>
+        <input id="pdf-delete-pages" class="input" placeholder="e.g. 2,4,8-10">
+        <br>
+        <button id="btn-delete-pages" class="btn primary">Delete Pages</button>
+      </section>
+
+      <!-- MERGE -->
+      <section id="tool-merge" class="tool-card hidden">
+        <div id="results" >
+        <img src="pdftopdf.png" class="imgdim" alt="">
+      </div>
+
+        <h3>Merge PDFs</h3>
+        <input  id="pdf-merge-input" type="file" multiple accept="application/pdf">
+        <br><br>
+        <button id="btn-merge" class="btn primary">Merge</button>
+      </section>
+
+      <!-- TEXT → PDF -->
+      <section id="tool-text2pdf" class="tool-card hidden">
+        <div id="results" >
+        <img src="texttopdf.png" class="imgdim" alt="">
+      </div>
+
+        <h3>Text → PDF</h3>
+        <textarea id="text2pdf-content" rows="8" placeholder="Write text..."></textarea>
+        <br>
+        <button id="btn-text2pdf" class="btn primary">Generate PDF</button>
+      </section>
+
+      <!-- PDF → PAGES -->
+      <section id="tool-pdf2pages" class="tool-card hidden">
+        <div id="results" >
+        <img src="pdftoimg.jpg" class="imgdim" alt="">
+      </div>
+
+        <h3>PDF → Pages</h3>
+        <input id="pdf2pages-input" type="file" accept="application/pdf">
+        <br><br>
+        <button id="btn-pdf2pages" class="btn primary">Convert</button>
+      </section>
+
+    </main>
+
+  </div>
+  
+</div>
+
+
+ 
+
+<div id="results" >
+       <div id="result-list" style="margin-top:10px;color:var(--muted);text-align: center;font-size: 2vh;">
+          Made By MRIDUL ANAND <br>
+        INSTA:- marco_k_ing
+        </div>
+      </div>
+
+<script>
+
+/* --------- Show Only Selected Tool --------- */
+document.querySelectorAll("[data-tool]").forEach(btn=>{
+  btn.addEventListener("click", e=>{
+    e.preventDefault();
+    let id = btn.getAttribute("data-tool");
+
+    document.querySelectorAll(".tool-card")
+      .forEach(t=>t.classList.add("hidden"));
+
+    document.querySelector("#tool-"+id)
+      .classList.remove("hidden");
+
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+});
+
+/* docs button */
+document.getElementById("open-docs").onclick=()=>{
+  alert("Docs will be added.");
+};
+
+</script>
+
+<script src="script.js"></script>
+</body>
+</html>
